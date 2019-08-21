@@ -30,6 +30,7 @@ class UnameResolver < BaseResolver
       @@fact_list[:family] = output_strings[0]
       @@fact_list[:architecture] = output_strings[-1]
       @@fact_list[:hardware] = output_strings[-1]
+      @@fact_list[:hostname] = output_strings[1]
     end
   end
 end

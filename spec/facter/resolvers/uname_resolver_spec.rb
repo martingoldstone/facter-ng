@@ -24,4 +24,10 @@ describe 'UnameResolver' do
 
     expect(result).to eq('18.2.0')
   end
+
+  it 'returns os hostname' do
+    result = UnameResolver.resolve(:hostname)
+
+    expect(result).to eq('mbp.wifi.tsr.corp.puppet.net')
+  end
 end
