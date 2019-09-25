@@ -25,10 +25,15 @@ module Facter
           release_info = output.delete("\t").split("\n").map { |e| e.split(':') }
 
           result = Hash[*release_info.flatten]
-          @fact_list = result.transform_keys! { |key| key.downcase.gsub(/\s/, '_').to_sym }
-          @fact_list[:identifier] = @fact_list[:distributor_id]
+          build_fact_list(result)
 
           @fact_list[fact_name]
+        end
+
+        def build_fact_list(result)
+          result.keys.each { |key| result[key.downcase.gsub(/\s/, '_').to_sym] = result.delete(key) }
+          @fact_list = result
+          @fact_list[:identifier] = @fact_list[:distributor_id]
         end
       end
     end
