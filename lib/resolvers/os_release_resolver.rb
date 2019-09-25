@@ -33,15 +33,15 @@ module Facter
             pairs << line.strip.delete('"').split('=', 2)
           end
 
-          result = Hash[*pairs.flatten]
-          build_fact_list(result)
+          results = Hash[*pairs.flatten]
+          build_fact_list(results)
 
           @fact_list[fact_name]
         end
 
-        def build_fact_list(result)
-          result.keys.each { |key| result[key.downcase.to_sym] = result.delete(key) }
-          @fact_list = result
+        def build_fact_list(results)
+          results.each { |k, v| @fact_list[k.downcase.to_sym] = v }
+
           @fact_list[:identifier] = @fact_list[:id]
         end
       end

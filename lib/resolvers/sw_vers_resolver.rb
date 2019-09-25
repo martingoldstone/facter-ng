@@ -22,9 +22,10 @@ module Facter
         def software_version_system_call(fact_name)
           output, _status = Open3.capture2('sw_vers')
           release_info = output.delete("\t").split("\n").map { |e| e.split(':') }
-          result = Hash[*release_info.flatten]
-          result.keys.each { |key| result[key.downcase.to_sym] = result.delete(key) }
-          @fact_list = result
+
+          results = Hash[*release_info.flatten]
+          results.each { |k, v| @fact_list[k.downcase.to_sym] = v }
+
           @fact_list[fact_name]
         end
       end

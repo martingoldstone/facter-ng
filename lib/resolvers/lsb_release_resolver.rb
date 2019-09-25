@@ -24,15 +24,15 @@ module Facter
           output, _status = Open3.capture2('lsb_release -a')
           release_info = output.delete("\t").split("\n").map { |e| e.split(':') }
 
-          result = Hash[*release_info.flatten]
-          build_fact_list(result)
+          results = Hash[*release_info.flatten]
+          build_fact_list(results)
 
           @fact_list[fact_name]
         end
 
-        def build_fact_list(result)
-          result.keys.each { |key| result[key.downcase.gsub(/\s/, '_').to_sym] = result.delete(key) }
-          @fact_list = result
+        def build_fact_list(results)
+          results.each { |k, v| @fact_list[k.downcase.gsub(/\s/, '_').to_sym] = v }
+
           @fact_list[:identifier] = @fact_list[:distributor_id]
         end
       end

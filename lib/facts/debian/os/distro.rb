@@ -7,21 +7,25 @@ module Facter
 
       def call_the_resolver
         distro = {
-          'codename' => resolver(:codename),
-          'description' => resolver(:description),
-          'id' => resolver(:distributor_id),
+          'codename' => resolve_lsb(:codename),
+          'description' => resolve_lsb(:description),
+          'id' => resolve_lsb(:distributor_id),
           'release' => {
-            'full' => Resolvers::DebianVersion.resolve(:full),
-            'major' => Resolvers::DebianVersion.resolve(:major),
-            'minor' => Resolvers::DebianVersion.resolve(:minor)
+            'full' => resolve_version(:full),
+            'major' => resolve_version(:major),
+            'minor' => resolve_version(:minor)
           }
         }
 
         ResolvedFact.new(FACT_NAME, distro)
       end
 
-      def resolver(key)
+      def resolve_lsb(key)
         Resolvers::LsbRelease.resolve(key)
+      end
+
+      def resolve_version(key)
+        Resolvers::DebianVersion.resolve(key)
       end
     end
   end
